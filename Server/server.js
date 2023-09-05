@@ -1,11 +1,10 @@
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Place = require('./Models/place')
+const Ort = require('./Models/ortdaten')
 const db = require("./db");
 const cors = require('cors');
-
 
 const app = express();
 const port = 8080;
@@ -35,53 +34,29 @@ app.post('/add', (req, res) => {
     .catch(err => res.send(err))
 });
 
-// Mussen wir noch anpassen
 
 app.post('/ortdaten', (req, res) => {
-    Place.create ({
-        name: req.body.name,
-        country : req.body.country,
-        reminder: req.body.reminder,
-        note:  req.body. note,
-        visit: req.body.visit
-    }).then((newplace)=>{res.send(newplace)})
+    Ort.create ({
+        zipCode: req.body.zipCode,
+        street : req.body.street,
+    }).then((newdaten)=>{res.send(newdaten)})
     
     .catch(err => res.send(err))
 });
 
+app.get('/allplaces', async (req, res) => {
+    const allplaces = await Place.find({})
+    .catch((err) => res.status(500).send("Server Error"));
+    res.status(200).json(allplaces);
+})
 
-
-// Neuen Ort hinzufügen
-app.post('/orte', async (req, res) => {
-try {
-    const {
-    name,
-    country,
-    city,
-    visitedDate,
-    reminder,
-    linkedPlaces,
-    } = req.body;
-    const neuerOrt = new Ort({
-    name,
-    country,
-    city,
-    visitedDate,
-    reminder,
-    linkedPlaces,
-    });
-    const gespeicherterOrt = await neuerOrt.save();
-    res.status(201).json(gespeicherterOrt);
-} catch (error) {
-    res.status(500).json({ error: error.message });
-}
-});
+app.get('/info', async (req, res) => {
+    const bank = await Ort.find({})
+    .catch((err) => res.status(500).send("Server Error"));
+    res.status(200).json(bank);
+})
 
 
 app.listen(port, () => {
     console.log(`Server is running on ${port}`);
 });
-
-
-
-
