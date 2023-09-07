@@ -1,7 +1,7 @@
 /* Dieser Code stellt eine Verbindung zur MongoDB-Datenbank her und exportiert,
     die Datenbankverbindung für andere Teile der Anwendung*/
 const mongoose = require("mongoose");
-const DATABASE_URL = 'mongodb+srv://NomadNexus:aws12345@my-love-planet.vco2jng.mongodb.net/World'
+const DATABASE_URL = 'mongodb+srv://NomadNexus:xxxxx@my-love-planet.vco2jng.mongodb.net/World'
 const mongoString = DATABASE_URL;
 mongoose.connect(mongoString, {
 useNewUrlParser: true,
